@@ -1,11 +1,13 @@
 from load_dataset import load_dataset 
 from tokenizer import Tokenizer
+from encode_dataset import encode_dataset
+from get_batch import get_batch
 
 dataset = load_dataset()
-tokenizer = Tokenizer(dataset)
+distinct_characters = sorted(list(set(dataset)))
+tokenizer = Tokenizer(distinct_characters)
+training_data, validation_data = encode_dataset(dataset, tokenizer)
+inputs, targets = get_batch(training_data)
 
-encoded_text = tokenizer.encode("Hi Mum, I love you")
-print("Encoded", encoded_text)
-
-decoded_text = tokenizer.decode(encoded_text)
-print("Decoded", decoded_text)
+print('inputs', inputs)
+print('targets', targets)

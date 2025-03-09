@@ -1,6 +1,5 @@
 class Tokenizer:
-  def __init__(self, dataset):
-    distinct_characters = sorted(list(set(dataset)))
+  def __init__(self, distinct_characters):
     self.__char_to_int_dict = { char:i for i, char in enumerate(distinct_characters) }
     self.__int_to_char_dict = { i:char for i, char in enumerate(distinct_characters) }
 
