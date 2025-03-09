@@ -1,3 +1,5 @@
-from rand_string import rand_string 
+from load_dataset import load_dataset 
 
-print(rand_string(5))
+dataset = load_dataset()
+
+print(dataset[:1000])
