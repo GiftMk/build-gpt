@@ -1,13 +1,20 @@
 from load_dataset import load_dataset 
 from tokenizer import Tokenizer
 from encode_dataset import encode_dataset
-from get_batch import get_batch
+from language_model import BigramLanguageModel
+from train import train
+import torch
 
-dataset = load_dataset()
-distinct_characters = sorted(list(set(dataset)))
-tokenizer = Tokenizer(distinct_characters)
+dataset, vocab = load_dataset()
+vocab_size = len(vocab)
+
+tokenizer = Tokenizer(vocab)
 training_data, validation_data = encode_dataset(dataset, tokenizer)
-inputs, targets = get_batch(training_data)
 
-print('inputs', inputs)
-print('targets', targets)
+model = BigramLanguageModel(vocab_size)
+loss = train(training_data, model, num_steps=100_000)
+
+test_input = torch.zeros((1, 1), dtype=torch.long)
+prediction = model.generate(test_input, max_new_tokens=100)[0].tolist()
+
+print(loss, tokenizer.decode(prediction))

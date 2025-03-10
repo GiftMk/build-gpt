@@ -2,11 +2,13 @@ import torch
 
 torch.manual_seed(1337)
 
-BATCH_SIZE = 4
+# TODO: document what these values mean and why we chose them
+# TODO: explore performance when using different values
 BLOCK_SIZE = 8
 
-def get_batch(data):
-  random_indices = torch.randint(len(data) - BLOCK_SIZE, (BATCH_SIZE,))
+# TODO: document what the purpose of function
+def get_batch(data, batch_size):
+  random_indices = torch.randint(len(data) - BLOCK_SIZE, (batch_size,))
   inputs = get_inputs(data, random_indices)
   targets = get_targets(data, random_indices)
 
