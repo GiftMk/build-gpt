@@ -1,33 +1,30 @@
 import torch
+from constants import SEED, DEVICE
 
-torch.manual_seed(1337)
-
-# TODO: document what these values mean and why we chose them
-# TODO: explore performance when using different values
-BLOCK_SIZE = 8
+torch.manual_seed(SEED)
 
 # TODO: document what the purpose of function
-def get_batch(data, batch_size):
-  random_indices = torch.randint(len(data) - BLOCK_SIZE, (batch_size,))
-  inputs = get_inputs(data, random_indices)
-  targets = get_targets(data, random_indices)
+def get_batch(data, batch_size, block_size):
+  random_indices = torch.randint(len(data) - block_size, (batch_size,))
+  inputs = get_inputs(data, random_indices, block_size)
+  targets = get_targets(data, random_indices, block_size)
 
-  return inputs, targets
+  return inputs.to(DEVICE), targets.to(DEVICE)
 
-def get_inputs(data, indices):
+def get_inputs(data, indices, block_size):
   inputs = []
 
   for i in indices:
-    input_array = data[i:i + BLOCK_SIZE]
+    input_array = data[i:i + block_size]
     inputs.append(input_array)
 
   return torch.stack(inputs)
 
-def get_targets(data, indices):
+def get_targets(data, indices, block_size):
   targets = []
 
   for i in indices:
-    target_array = data[i + 1: i + BLOCK_SIZE + 1]
+    target_array = data[i + 1: i + block_size + 1]
     targets.append(target_array)
 
   return torch.stack(targets)
